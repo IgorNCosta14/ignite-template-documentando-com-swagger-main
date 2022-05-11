@@ -1,0 +1,307 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Ignite Desafio: SOLID e Swagger",
+      "description": "SOLID and Swagger.",
+      "version": "1.0.0",
+      "contact": "igorncosta14@hotmail.com"
+    },
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Create a new User",
+          "description": "Create a new user.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Teste",
+                    "email": "test@test.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Email already exists.",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get":{
+          "tags":["Users"],
+          "summary": "List users",
+          "description": "List users.",
+          "parameters":[
+            {
+              "in":"header",
+              "name":"user_id",
+              "description":"identification by user id",
+              "required":true,
+              "example": "ea057146-f68c-4124-b8b8-4279189acb81"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "array",
+                    "items":{
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "admin": {
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        }
+      },
+      "/users/{user_id}/admin":{
+        "patch":{
+          "tags": ["Users"],
+          "summary": "User becomes admin",
+          "description": "Change isAdmin to true",
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"path",
+              "description": "user id",
+              "required": true,
+              "schema":{"type":"string"},
+              "example":"ea057146-f68c-4124-b8b8-4279189acb81"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            } 
+          }
+        } 
+      },
+      "/users/{user_id}":{
+        "get":{
+          "tags":["Users"],
+          "summary": "Get user",
+          "description": "Get user by id in params",
+          "parameters": [
+            {
+              "in": "path",
+              "name":"user_id",
+              "description": "user id",
+              "required": true,
+              "example":"ea057146-f68c-4124-b8b8-4279189acb81"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "error":{
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
